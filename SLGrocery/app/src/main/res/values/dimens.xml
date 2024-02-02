@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--  login and sign up  -->
+    <dimen name="input_controller_vertical_margin">15dp</dimen>
+    <!--    home-->
+    <dimen name="home_drawer_header_padding_horizontal">40dp</dimen>
+    <dimen name="home_drawer_header_padding_top">30dp</dimen>
+    <dimen name="home_drawer_header_padding_bottom">10dp</dimen>
+    <dimen name="home_drawer_header_img_width">150dp</dimen>
+</resources>

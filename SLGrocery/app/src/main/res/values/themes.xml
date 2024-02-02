@@ -1,0 +1,66 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SLGrocery" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/primary</item>
+    </style>
+
+    <style name="Theme.SLGrocery" parent="Base.Theme.SLGrocery" />
+
+    <style name="layout_style">
+        <item name="android:paddingStart">30dp</item>
+        <item name="android:paddingEnd">30dp</item>
+    </style>
+
+    <style name="logo_style">
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">30dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="android:src">@drawable/logo</item>
+    </style>
+
+    <style name="title_text" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="button">
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="cancel_button" parent="@style/button">
+        <item name="android:backgroundTint">@color/grey</item>
+    </style>
+
+    <style name="toolbar_theme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="radio_group_label">
+        <item name="android:textSize">18sp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="home_top_greeting">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="grid_table_cell">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+    </style>
+
+    <style name="grid_table_header" parent="grid_table_cell">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

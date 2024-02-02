@@ -1,0 +1,75 @@
+<resources>
+    <string name="app_name">SLGrocery</string>
+    <!--    main activity-->
+    <string name="main_sign_up_btn">SIGN UP</string>
+    <string name="main_login_btn">LOGIN</string>
+    <!--    login activity-->
+    <string name="login_title">LOGIN</string>
+    <string name="login_input_email">Email Address</string>
+    <string name="login_input_password">Password</string>
+    <string name="login_login_btn">LOGIN</string>
+    <!--    sign up activity-->
+    <string name="sign_up_input_username">Username</string>
+    <string name="sign_up_title">SIGN UP</string>
+    <string name="sign_up_input_email">Email Address</string>
+    <string name="sign_up_input_password">Password</string>
+    <string name="sign_up_input_confirm_password">Confirm Password</string>
+    <string name="sign_up_login_btn">SIGN UP</string>
+    <!--    home activity-->
+    <string name="main_toolbar_title">SL Grocery</string>
+    <string name="menu_add_stock">Add Stock</string>
+    <string name="menu_sales">Sales</string>
+    <string name="menu_purchase">Purchase</string>
+    <string name="menu_search_stock">Search Stock</string>
+    <string name="menu_list_stock">List Stock</string>
+    <string name="menu_logout">Logout</string>
+    <string name="home_toolbar_open">Open</string>
+    <string name="home_toolbar_off">Off</string>
+    <!--    Add Stock Fragment-->
+    <string name="fragment_add_stock_title">Add Stock</string>
+    <string name="fragment_add_stock_item_name">Item Name</string>
+    <string name="fragment_add_stock_item_quantity">Quantity</string>
+    <string name="fragment_add_stock_item_price">Price</string>
+    <string name="fragment_add_stock_taxable_label">Taxable?</string>
+    <string name="fragment_add_stock_taxable_yes">Yes</string>
+    <string name="fragment_add_stock_taxable_no">No</string>
+    <string name="fragment_add_stock_save_btn">SAVE</string>
+    <string name="fragment_add_stock_cancel_btn">CANCEL</string>
+    <!--    sale fragment-->
+    <string name="fragment_sales_title">Sales</string>
+    <string name="fragment_sale_item_code">Item Code</string>
+    <string name="fragment_sale_customer_name">Customer Name</string>
+    <string name="fragment_sale_customer_email">Customer Email</string>
+    <string name="fragment_sale_quantity">Quantity</string>
+    <string name="fragment_sale_date">Sale Date</string>
+    <string name="fragment_sale_submit_btn">SUBMIT</string>
+    <string name="fragment_sale_cancel_btn">CANCEL</string>
+    <!--    purchase fragment-->
+    <string name="fragment_purchase_item_code">Item Code</string>
+    <string name="fragment_purchase_quantity">Purchase Quantity</string>
+    <string name="fragment_purchase_date">Date of Purchase</string>
+    <string name="fragment_purchase_submit_btn">SUBMIT</string>
+    <string name="fragment_purchase_cancel_btn">CANCEL</string>
+    <!--    search fragment-->
+    <string name="fragment_search_title">Search Item</string>
+    <string name="fragment_search_item_code">Item Code</string>
+    <string name="fragment_search_search_btn">SEARCH</string>
+    <string name="fragment_search_cancel_btn">CANCEL</string>
+    <string name="search_item_code">Item Code</string>
+    <string name="search_item_name">Item Name</string>
+    <string name="search_item_quantity">Stock Quantity</string>
+    <string name="search_item_price">Price</string>
+    <string name="search_item_taxable">Taxable</string>
+    <!--    list fragment-->
+    <string name="fragment_list_title">Stock List</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_list_item_code">Code</string>
+    <string name="fragment_list_item_name">Name</string>
+    <string name="fragment_list_stock_quantity">Quantity</string>
+    <string name="fragment_list_price">Price</string>
+    <string name="fragment_list_taxable">Taxable</string>
+    <string name="fragment_list_cancel_btn">CANCEL</string>
+
+    <string name="fragment_list_back_btn" translatable="false">BACK</string>
+
+</resources>

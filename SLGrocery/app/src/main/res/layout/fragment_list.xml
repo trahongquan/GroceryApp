@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/layout_style"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Fragments.ListFragment">
+
+    <TextView
+        style="@style/title_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/input_controller_vertical_margin"
+        android:text="@string/fragment_list_title" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fragment_grid_col1"
+            style="@style/grid_table_header"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_list_item_code"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_grid_col2"
+            style="@style/grid_table_header"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_list_item_name"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fragment_grid_col3"
+            app:layout_constraintStart_toEndOf="@+id/fragment_grid_col1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_grid_col3"
+            style="@style/grid_table_header"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_list_stock_quantity"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fragment_grid_col4"
+            app:layout_constraintStart_toEndOf="@+id/fragment_grid_col2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_grid_col4"
+            style="@style/grid_table_header"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_list_price"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/fragment_grid_col5"
+            app:layout_constraintStart_toEndOf="@+id/fragment_grid_col3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fragment_grid_col5"
+            style="@style/grid_table_header"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_list_taxable"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/fragment_list_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/input_controller_vertical_margin" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/fragment_list_cancel_btn"
+        style="@style/cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/input_controller_vertical_margin"
+        android:text="@string/fragment_list_back_btn"
+        app:cornerRadius="5dp" />
+</LinearLayout>
