@@ -1,5 +1,8 @@
 package com.example.slgrocery.Utils;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 public class StockValidation {
     private final String itemName;
     private final String quantity;
@@ -12,7 +15,6 @@ public class StockValidation {
         this.quantity = quantity;
         this.price = price;
     }
-
     public boolean itemNameValidation() {
         errorMessage = null;
         if (itemName.trim().isEmpty()) {

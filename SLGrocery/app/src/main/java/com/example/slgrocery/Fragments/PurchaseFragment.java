@@ -1,19 +1,28 @@
 package com.example.slgrocery.Fragments;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+import static androidx.core.content.ContextCompat.registerReceiver;
+
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.slgrocery.DbHelper;
-import com.example.slgrocery.Models.Purchase;
+import com.example.slgrocery.HomeActivity;
+import com.example.slgrocery.MyDatabaseService;
 import com.example.slgrocery.R;
 import com.example.slgrocery.Utils.Dialog;
 import com.example.slgrocery.Utils.PurchaseValidation;
@@ -23,7 +32,19 @@ import java.util.Calendar;
 
 public class PurchaseFragment extends Fragment implements View.OnClickListener {
     FragmentPurchaseBinding fragmentPurchaseBinding;
+    HomeActivity homeActivity;
     DbHelper dbHelper;
+    private BroadcastReceiver purchaseResultReceiver;
+    public String result ="";
+
+
+    @Override /** Lấy context từ Activity chứa fragmentPurchaseBinding */
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof HomeActivity) {
+            homeActivity = (HomeActivity) context;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,6 +53,11 @@ public class PurchaseFragment extends Fragment implements View.OnClickListener {
         init();
         return fragmentPurchaseBinding.getRoot();
     }
+
+    public void setPurchaseResultReceiver(BroadcastReceiver receiver) {
+        purchaseResultReceiver = receiver; // Gán receiver được truyền
+    }
+
 
     private void init() {
         dbHelper = new DbHelper(getContext());
@@ -53,7 +79,7 @@ public class PurchaseFragment extends Fragment implements View.OnClickListener {
             int purchaseYear = calendar.get(Calendar.YEAR);
             @SuppressLint("DefaultLocale") DatePickerDialog datePickerDialog = new DatePickerDialog(
                     getContext(), (view, year, month, dayOfMonth) ->
-                    fragmentPurchaseBinding.fragmentPurchaseDate.setText(String.format("%d/%d/%d", year, month + 1, dayOfMonth)),
+                    fragmentPurchaseBinding.fragmentPurchaseDate.setText(String.format("%d/%d/%d", year, month +1 , dayOfMonth)),
                     purchaseYear, purchaseMonth, purchaseDate);
             datePickerDialog.show();
         }
@@ -85,11 +111,23 @@ public class PurchaseFragment extends Fragment implements View.OnClickListener {
             }
             if (isItemCodeValid && isPurchaseQuantityValid) {
                 if (isPurchaseDateValid) {
-                    Purchase purchase = new Purchase();
-                    purchase.itemCode = itemCode;
-                    purchase.purchaseQuantity = purchaseQuantity;
-                    purchase.purchaseDate = purchaseDate;
-                    String result = dbHelper.createPurchase(purchase);
+//                    Purchase purchase = new Purchase();
+//                    purchase.itemCode = itemCode;
+//                    purchase.purchaseQuantity = purchaseQuantity;
+//                    purchase.purchaseDate = purchaseDate;
+//                    String result = dbHelper.createPurchase(purchase);
+                    /** Xử lý DB ở service */
+                    Intent intent = new Intent(homeActivity.getAppContext(), MyDatabaseService.class); // Thay thế "com.example.purchase_action" bằng action của Service
+                    intent.putExtra("operation", "create_purchase");
+                    intent.putExtra("itemCode", itemCode);
+                    intent.putExtra("purchaseQuantity", purchaseQuantity);
+                    intent.putExtra("purchaseDate", purchaseDate);
+                    // Sử dụng ngữ cảnh của Activity để khởi động Service
+                    homeActivity.getAppContext().startService(intent);
+
+
+                    Log.i("purchaseResultReceiver", result);
+
                     if (result.equals("Invalid Item Code") || result.equals("Save Purchase Failed")) {
                         new Dialog("Purchase Failed", result).show(
                                 requireActivity().getSupportFragmentManager(), "PurchaseFailed"

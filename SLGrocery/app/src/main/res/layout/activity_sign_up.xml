@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context=".SignUpActivity">
 
-    <ImageView style="@style/logo_style" />
+    <ImageView style="@style/logo_style_signup" />
 
     <TextView
         style="@style/title_text"

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SLGrocery</string>
+    <string name="app_name">Note Stock</string>
     <!--    main activity-->
     <string name="main_sign_up_btn">SIGN UP</string>
     <string name="main_login_btn">LOGIN</string>
@@ -16,7 +16,7 @@
     <string name="sign_up_input_confirm_password">Confirm Password</string>
     <string name="sign_up_login_btn">SIGN UP</string>
     <!--    home activity-->
-    <string name="main_toolbar_title">SL Grocery</string>
+    <string name="main_toolbar_title">Note Stock</string>
     <string name="menu_add_stock">Add Stock</string>
     <string name="menu_sales">Sales</string>
     <string name="menu_purchase">Purchase</string>
@@ -52,7 +52,7 @@
     <string name="fragment_purchase_cancel_btn">CANCEL</string>
     <!--    search fragment-->
     <string name="fragment_search_title">Search Item</string>
-    <string name="fragment_search_item_code">Item Code</string>
+    <string name="fragment_search_item_code">Input Item</string>
     <string name="fragment_search_search_btn">SEARCH</string>
     <string name="fragment_search_cancel_btn">CANCEL</string>
     <string name="search_item_code">Item Code</string>

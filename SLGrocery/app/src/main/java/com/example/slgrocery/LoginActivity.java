@@ -21,12 +21,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (routeGuard()) {
+        if (routeGuard()) { /** routeGuard() Kiểm tra đăng nhập*/
             activityLoginBinding = ActivityLoginBinding.inflate(getLayoutInflater());
             setContentView(activityLoginBinding.getRoot());
             init();
         } else {
-            goHomeActivity();
+            goHomeActivity(); /** đã đăng nhập */
         }
     }
 
@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         activityLoginBinding.loginSignUpBtn.setOnClickListener(this);
     }
 
-    // if user login successfully, save the related info into sharePreferences
+    /** Lưu thông tin của người dùng đăngg nập thành công vào sharePreferences*/
     private void saveSession(String email) {
         SharedPreferences sharedPreferences = getSharedPreferences(Settings.session_key, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.apply();
     }
 
-    // if the session can be get from sharePreferences, go to the home page
+    /** Nếu sharePreferences có thông tin đăng nhập sẵn thì return False chuyển đến Home*/
     private boolean routeGuard() {
         SharedPreferences sharedPreferences = getSharedPreferences(Settings.session_key, MODE_PRIVATE);
         return sharedPreferences.getString(Settings.session_username_key, null) == null;
@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
             }
         }
-        // when sign up button is clicked
+        /** when sign up button is clicked */
         else if (v.getId() == activityLoginBinding.loginSignUpBtn.getId()) {
             Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
             startActivity(intent);

@@ -13,5 +13,5 @@
         android:layout_width="@dimen/home_drawer_header_img_width"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logox" />
 </LinearLayout>

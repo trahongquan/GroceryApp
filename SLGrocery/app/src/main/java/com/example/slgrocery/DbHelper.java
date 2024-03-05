@@ -45,10 +45,12 @@ public class DbHelper extends SQLiteOpenHelper {
     private final String purchaseCol3 = "qtyPurchased";
     private final String purchaseCol4 = "dateOfPurchase";
 
+    /** Tạo DB */
     public DbHelper(Context context) {
         super(context, DBNAME, null, VERSION);
     }
 
+    /** Tạo Table */
     private String createUserTable() {
         String query = "";
         query += "CREATE TABLE " + userTableName + " (";
@@ -59,7 +61,6 @@ public class DbHelper extends SQLiteOpenHelper {
         query += ");";
         return query;
     }
-
     private String createStockTable() {
         String query = "";
         query += "CREATE TABLE " + stockTableName + " (";
@@ -71,7 +72,6 @@ public class DbHelper extends SQLiteOpenHelper {
         query += ");";
         return query;
     }
-
     private String createSaleTable() {
         String query = "";
         query += "CREATE TABLE " + saleTableName + " (";
@@ -85,7 +85,6 @@ public class DbHelper extends SQLiteOpenHelper {
         query += ");";
         return query;
     }
-
     private String createPurchaseTable() {
         String query = "";
         query += "CREATE TABLE " + purchaseTableName + " (";
@@ -97,7 +96,6 @@ public class DbHelper extends SQLiteOpenHelper {
         query += ");";
         return query;
     }
-
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -124,7 +122,7 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // create a new user
+    /** create a new user */
     public String createUser(User user) {
         try {
             SQLiteDatabase db = getWritableDatabase();
@@ -140,7 +138,7 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
-    // login checking
+    /** login checking */
     public boolean loginChecking(String email, String password) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -154,7 +152,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return cursor.getCount() == 1;
     }
 
-    // get username when login successfully
+    /** get username By Email when login successfully */
     public String getUsernameByEmail(String email) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -170,7 +168,8 @@ public class DbHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    // create stock item
+
+    /** create và get stock */
     public boolean createStockItem(StockItem stockItem) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -229,6 +228,31 @@ public class DbHelper extends SQLiteOpenHelper {
         return db.rawQuery(query, null);
     }
 
+    public Cursor getStockItemByName(String name) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "";
+        query += "SELECT * FROM " + stockTableName + " ";
+        query += "WHERE " + stockCol2 + "='" + name + "';";
+        return db.rawQuery(query, null);
+    }
+
+
+    /** Kiểm tra trùng tên Stock */
+    public boolean hasStockItemByName(String name) {
+        SQLiteDatabase db = getWritableDatabase();
+
+        String query = "SELECT COUNT(*) FROM " + stockTableName + " ";
+        query += "WHERE " + stockCol2 + "='" + name + "';";
+
+        Cursor cursor = db.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+
+        return count > 0;
+    }
+
     public String createPurchase(Purchase purchase) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -251,7 +275,7 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Cursor getStockItems() {
+    public Cursor getStockItems() { /** Lấy list stock */
         SQLiteDatabase db = getWritableDatabase();
 
         String query = "";

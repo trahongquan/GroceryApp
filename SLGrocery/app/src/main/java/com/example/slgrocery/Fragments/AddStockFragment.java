@@ -1,5 +1,6 @@
 package com.example.slgrocery.Fragments;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,9 @@ public class AddStockFragment extends Fragment implements View.OnClickListener, 
             if (!isItemNameValid) {
                 itemNameInputController.setError(stockValidation.errorMessage);
             }
+            if (itemNameDuplicateValidation(itemName)) {
+                itemNameInputController.setError("Item name is already exits");
+            }
             boolean isQuantityValid = stockValidation.quantityValidation();
             if (!isQuantityValid) {
                 quantityInputController.setError(stockValidation.errorMessage);
@@ -68,7 +72,7 @@ public class AddStockFragment extends Fragment implements View.OnClickListener, 
             if (!isPriceValid) {
                 priceInputController.setError(stockValidation.errorMessage);
             }
-            if (isItemNameValid && isQuantityValid && isPriceValid) {
+            if (isItemNameValid && isQuantityValid && isPriceValid && !itemNameDuplicateValidation(itemName)) {
                 // add stock item into database
                 StockItem stockItem = new StockItem();
                 stockItem.itemName = itemName;
@@ -105,5 +109,9 @@ public class AddStockFragment extends Fragment implements View.OnClickListener, 
         } else if (checkedId == fragmentAddStockBinding.fragmentAddStockTaxableNo.getId()) {
             isTaxable = false;
         }
+    }
+    private boolean itemNameDuplicateValidation(String itemName){
+        boolean checkStock = dbHelper.hasStockItemByName(itemName);
+        return checkStock;
     }
 }

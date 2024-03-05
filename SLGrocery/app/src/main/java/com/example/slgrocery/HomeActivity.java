@@ -1,10 +1,14 @@
 package com.example.slgrocery;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -24,7 +28,25 @@ import com.google.android.material.navigation.NavigationView;
 public class HomeActivity extends AppCompatActivity {
     ActivityHomeBinding activityHomeBinding;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    PurchaseFragment purchaseFragment = new PurchaseFragment();
 
+    /** Sử dụng BroadcastReceiver để thống báo service DB được hoàn thiện */
+    private BroadcastReceiver purchaseResultReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String result = intent.getStringExtra("purchase_result");
+            // Xử lý kết quả mua hàng nhận được (ví dụ: cập nhật giao diện, hiển thị thông báo)
+            Toast.makeText(HomeActivity.this, result, Toast.LENGTH_SHORT).show();
+            if (purchaseFragment != null) {
+                // Kiểm tra xem fragment đã được đính kèm hay chưa và gọi phương thức setPurchaseResultReceiver của nó
+                purchaseFragment.result = result;
+            }
+        }
+    };
+    /** Truyền Context từ Activity tới các fragment con */
+    public Context getAppContext() {
+        return getApplicationContext(); // Trả về ngữ cảnh ứng dụng của Activity
+    }
     private void Logout() {
         SharedPreferences sharedPreferences = getSharedPreferences(Settings.session_key, MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
@@ -40,16 +62,27 @@ public class HomeActivity extends AppCompatActivity {
         init();
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (purchaseFragment != null) {
+            // Kiểm tra xem fragment đã được đính kèm hay chưa và gọi phương thức setPurchaseResultReceiver của nó
+            purchaseFragment.setPurchaseResultReceiver(purchaseResultReceiver);
+        }
+        registerReceiver(purchaseResultReceiver, new IntentFilter("com.example.purchase_result"));
+    }
+
     @SuppressLint({"ResourceAsColor", "SetTextI18n"})
     /** Bỏ qua cảnh báo linter: Dòng này hướng dẫn trình biên dịch bỏ qua các cảnh báo liên quan đến việc sử dụng màu sắc và thiết lập văn bản trực tiếp trong code. */
     private void init() {
         activityHomeBinding.homeTopWelcomeMessage.setText("Welcome, " + getUsername());
-        // set default fragment when loading home activity
+        /** set default fragment when loading home activity */
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         Fragment fragment = new MainFragment();
         fragmentTransaction.replace(activityHomeBinding.homeFrameLayout.getId(), fragment);
         fragmentTransaction.commit();
-        // set drawer layout toggle
+        /** set drawer layout toggle */
         actionBarDrawerToggle = new ActionBarDrawerToggle(
                 this,
                 activityHomeBinding.homeDrawerLayout,
@@ -98,11 +131,18 @@ public class HomeActivity extends AppCompatActivity {
 
     private String getUsername() {
         SharedPreferences sharedPreferences = getSharedPreferences(Settings.session_key, MODE_PRIVATE);
+        /** Lấy đối tượng SharedPreferences để lưu trữ và truy xuất dữ liệu dạng key-value trên thiết bị ở MODE_PRIVATE */
         return sharedPreferences.getString(Settings.session_username_key, null);
     }
 
     @Override
     public void onBackPressed() {
+        init();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(purchaseResultReceiver); // Hủy đăng ký để tránh rò rỉ bộ nhớ
+    }
 }

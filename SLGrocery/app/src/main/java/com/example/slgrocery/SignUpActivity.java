@@ -77,11 +77,21 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 confirmPasswordController.setError("Confirm password is different than the password");
             }
             if (isUsernameValid && isPasswordValid && isEmailValid && isPasswordSame) {
+
                 User user = new User();
                 user.email = email;
                 user.username = username;
                 user.password = password;
                 String createUserResponse = dbHelper.createUser(user);
+
+//                Intent intentService = new Intent(this, MyDatabaseService.class);
+//                intentService.putExtra("operation", "create_User");
+//                intentService.putExtra("email", email);
+//                intentService.putExtra("username", username);
+//                intentService.putExtra("password", password);
+//                // Sử dụng ngữ cảnh của Activity để khởi động Service
+//                this.startService(intentService);
+
                 if (Objects.equals(createUserResponse, "DONE")) {
                     Toast.makeText(getApplicationContext(), "Create User Successfully", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);

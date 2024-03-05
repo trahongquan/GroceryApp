@@ -20,7 +20,29 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/input_controller_vertical_margin"
             android:text="@string/fragment_search_title" />
+        <RadioGroup
+            android:id="@+id/fragment_search_radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/input_controller_vertical_margin">
 
+            <RadioButton
+                android:id="@+id/fragment_radiobutton_search_code"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="50dp"
+                android:text="Code" />
+
+            <RadioButton
+                android:id="@+id/fragment_radiobutton_search_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Name" />
+
+        </RadioGroup>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
