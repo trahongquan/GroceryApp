@@ -1,7 +1,11 @@
 package com.example.slgrocery;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -18,13 +22,27 @@ import java.util.Objects;
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
     /** Tạo một đối tượng ActivitySignUpBinding từ file layout XML và kết nối nó với Activity hiện tại */
     ActivitySignUpBinding activitySignUpBinding;
+    LoginActivity loginActivity;
     DbHelper dbHelper;
+    private String createUserResponse = "hi";
 
+    private BroadcastReceiver SignUpBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            createUserResponse = intent.getStringExtra("create_user");
+            // Xử lý kết quả mua hàng nhận được (ví dụ: cập nhật giao diện, hiển thị thông báo)
+            Toast.makeText(loginActivity.getAppContext(), createUserResponse, Toast.LENGTH_SHORT).show();
+            Log.i("createUserResponse1", createUserResponse);
+
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activitySignUpBinding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(activitySignUpBinding.getRoot());
+        IntentFilter filter = new IntentFilter("com.example.createuser_result");
+        registerReceiver(SignUpBroadcastReceiver, filter);
         init();
     }
 
@@ -90,16 +108,17 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 //                intentService.putExtra("username", username);
 //                intentService.putExtra("password", password);
 //                // Sử dụng ngữ cảnh của Activity để khởi động Service
-//                this.startService(intentService);
+//                startService(intentService);
 
+                Log.i("createUserResponse2", createUserResponse);
                 if (Objects.equals(createUserResponse, "DONE")) {
                     Toast.makeText(getApplicationContext(), "Create User Successfully", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                 } else {
                     Dialog dialog = new Dialog("Create User Failed", createUserResponse, "Try Again");
                     dialog.show(getSupportFragmentManager(), "signUpFailed");
                 }
+
             }
         }
         // when the login button is clicked
@@ -111,5 +130,10 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
         }
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(SignUpBroadcastReceiver);
     }
 }

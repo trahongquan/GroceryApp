@@ -2,18 +2,26 @@ package com.example.slgrocery.Fragments;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.slgrocery.DbHelper;
+import com.example.slgrocery.HomeActivity;
 import com.example.slgrocery.Models.Sale;
+import com.example.slgrocery.MyDatabaseService;
 import com.example.slgrocery.R;
 import com.example.slgrocery.Utils.Dialog;
 import com.example.slgrocery.Utils.SaleValidation;
@@ -25,11 +33,32 @@ public class SaleFragment extends Fragment implements View.OnClickListener {
 
     FragmentSaleBinding fragmentSaleBinding;
     DbHelper dbHelper;
+    HomeActivity homeActivity;
+    public String result ="";
+    /** Sử dụng BroadcastReceiver để thống báo service DB được hoàn thiện */
+    private BroadcastReceiver saleResultReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            result = intent.getStringExtra("createSale_result");
+            // Xử lý kết quả mua hàng nhận được (ví dụ: cập nhật giao diện, hiển thị thông báo)
+            Toast.makeText(homeActivity.getAppContext(), result, Toast.LENGTH_SHORT).show();
+            Log.i("saleResultReceiver", result);
+        }
+    };
 
+    @Override /** Lấy context từ Activity chứa fragmentPurchaseBinding */
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof HomeActivity) {
+            homeActivity = (HomeActivity) context;
+        }
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentSaleBinding = FragmentSaleBinding.inflate(inflater, container, false);
+        IntentFilter filter = new IntentFilter("com.example.createSale_result");
+        requireActivity().registerReceiver(saleResultReceiver, filter);
         init();
         return fragmentSaleBinding.getRoot();
     }
@@ -103,20 +132,25 @@ public class SaleFragment extends Fragment implements View.OnClickListener {
             }
             if (isItemCodeValid && isCustomerNameValid && isCustomerEmailValid && isQuantityValid) {
                 if (isSaleDateValid) {
-                    Sale sale = new Sale();
-                    sale.itemCode = itemCode;
-                    sale.customerName = customerName;
-                    sale.customerEmail = customerEmail;
-                    sale.quantitySold = quantity;
-                    sale.dateOfSale = saleDate;
-                    String result = dbHelper.createSale(sale);
-                    String dialogTitle = "Sale Successfully";
+
+                    /** Xử lý DB ở service */
+                    Intent intent = new Intent(homeActivity.getAppContext(), MyDatabaseService.class); // Thay thế "com.example.purchase_action" bằng action của Service
+                    intent.putExtra("operation", "create_sale");
+                    intent.putExtra("itemCode", itemCode);
+                    intent.putExtra("customerName", customerName);
+                    intent.putExtra("customerEmail", customerEmail);
+                    intent.putExtra("quantity", quantity);
+                    intent.putExtra("saleDate", saleDate);
+                    // Sử dụng ngữ cảnh của Activity để khởi động Service
+                    homeActivity.getAppContext().startService(intent);
+
+                    /*String dialogTitle = "Sale Successfully";
                     if (result.equals("Invalid Item Code") || result.equals("The Stock is Insufficient") || result.equals("Save Sales Failed")) {
                         dialogTitle = "Sale Failed";
                     }
                     new Dialog(dialogTitle, result).show(
                             requireActivity().getSupportFragmentManager(), "SaleSuccessfully"
-                    );
+                    );*/
                 } else {
                     // The Edit of date's input type is set to Null, This is used to display error message by dialog
                     new Dialog("Validate Failed", saleValidation.errorMessage).show(
@@ -135,5 +169,10 @@ public class SaleFragment extends Fragment implements View.OnClickListener {
             fragmentTransaction.replace(R.id.home_frame_layout, new MainFragment());
             fragmentTransaction.commit();
         }
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        requireActivity().unregisterReceiver(saleResultReceiver); // Hủy đăng ký để tránh rò rỉ bộ nhớ
     }
 }

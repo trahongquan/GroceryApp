@@ -43,6 +43,11 @@
         <item name="android:backgroundTint">@color/grey</item>
     </style>
 
+    <style name="del_button" parent="@style/button">
+        <item name="android:layout_marginVertical">10dp</item>
+        <item name="android:backgroundTint">@color/grey</item>
+    </style>
+
     <style name="toolbar_theme" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
         <item name="android:textColorPrimary">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>

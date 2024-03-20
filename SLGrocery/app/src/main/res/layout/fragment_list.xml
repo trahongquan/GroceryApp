@@ -66,6 +66,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <com.google.android.material.button.MaterialButton-->
+<!--            android:id="@+id/fragment_list_del_btn"-->
+<!--            style="@style/cancel_button"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:text="Xóa"-->
+<!--            app:cornerRadius="5dp" />-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -73,7 +83,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="@dimen/input_controller_vertical_margin" />
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/fragment_list_cancel_btn"
         style="@style/cancel_button"

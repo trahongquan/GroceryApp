@@ -1,14 +1,12 @@
 package com.example.slgrocery;
 
 import android.annotation.SuppressLint;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -23,26 +21,14 @@ import com.example.slgrocery.Fragments.PurchaseFragment;
 import com.example.slgrocery.Fragments.SaleFragment;
 import com.example.slgrocery.Fragments.SearchFragment;
 import com.example.slgrocery.databinding.ActivityHomeBinding;
+import com.example.slgrocery.setting.SettingBiometric;
+import com.example.slgrocery.setting.Settings;
 import com.google.android.material.navigation.NavigationView;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityHomeBinding activityHomeBinding;
     ActionBarDrawerToggle actionBarDrawerToggle;
-    PurchaseFragment purchaseFragment = new PurchaseFragment();
 
-    /** Sử dụng BroadcastReceiver để thống báo service DB được hoàn thiện */
-    private BroadcastReceiver purchaseResultReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String result = intent.getStringExtra("purchase_result");
-            // Xử lý kết quả mua hàng nhận được (ví dụ: cập nhật giao diện, hiển thị thông báo)
-            Toast.makeText(HomeActivity.this, result, Toast.LENGTH_SHORT).show();
-            if (purchaseFragment != null) {
-                // Kiểm tra xem fragment đã được đính kèm hay chưa và gọi phương thức setPurchaseResultReceiver của nó
-                purchaseFragment.result = result;
-            }
-        }
-    };
     /** Truyền Context từ Activity tới các fragment con */
     public Context getAppContext() {
         return getApplicationContext(); // Trả về ngữ cảnh ứng dụng của Activity
@@ -50,6 +36,8 @@ public class HomeActivity extends AppCompatActivity {
     private void Logout() {
         SharedPreferences sharedPreferences = getSharedPreferences(Settings.session_key, MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
+        SharedPreferences sharedPreferencesBiometric = getSharedPreferences(SettingBiometric.session_key, MODE_PRIVATE);
+        sharedPreferencesBiometric.edit().clear().apply();
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
@@ -60,17 +48,16 @@ public class HomeActivity extends AppCompatActivity {
         activityHomeBinding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(activityHomeBinding.getRoot());
         init();
+        activityHomeBinding.imgAddStock.setOnClickListener(this);
+        activityHomeBinding.imgPurchase.setOnClickListener(this);
+        activityHomeBinding.imgSales.setOnClickListener(this);
+        activityHomeBinding.imgSearch.setOnClickListener(this);
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (purchaseFragment != null) {
-            // Kiểm tra xem fragment đã được đính kèm hay chưa và gọi phương thức setPurchaseResultReceiver của nó
-            purchaseFragment.setPurchaseResultReceiver(purchaseResultReceiver);
-        }
-        registerReceiver(purchaseResultReceiver, new IntentFilter("com.example.purchase_result"));
     }
 
     @SuppressLint({"ResourceAsColor", "SetTextI18n"})
@@ -143,6 +130,26 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(purchaseResultReceiver); // Hủy đăng ký để tránh rò rỉ bộ nhớ
+    }
+
+    @Override
+    public void onClick(View v) {
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        if(v.getId() == activityHomeBinding.imgAddStock.getId()){
+            fragmentTransaction.replace(activityHomeBinding.homeFrameLayout.getId(), new AddStockFragment()); // Replace current fragment
+            fragmentTransaction.commit(); // Execute transaction
+        }
+        else if (v.getId() == activityHomeBinding.imgSales.getId()) {
+            fragmentTransaction.replace(activityHomeBinding.homeFrameLayout.getId(), new SaleFragment()); // Replace current fragment
+            fragmentTransaction.commit(); // Execute transaction
+        }
+        else if (v.getId() == activityHomeBinding.imgPurchase.getId()) {
+            fragmentTransaction.replace(activityHomeBinding.homeFrameLayout.getId(), new PurchaseFragment()); // Replace current fragment
+            fragmentTransaction.commit(); // Execute transaction
+        }
+        else if (v.getId() == activityHomeBinding.imgSearch.getId()) {
+            fragmentTransaction.replace(activityHomeBinding.homeFrameLayout.getId(), new SearchFragment()); // Replace current fragment
+            fragmentTransaction.commit(); // Execute transaction
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.slgrocery;
+package com.example.slgrocery.setting;
 
 public class Settings {
     public static String session_key = "session";

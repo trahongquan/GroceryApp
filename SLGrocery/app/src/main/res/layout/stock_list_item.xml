@@ -39,12 +39,20 @@
         app:layout_constraintEnd_toStartOf="@id/grid_col5"
         app:layout_constraintStart_toEndOf="@+id/grid_col3"
         app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/grid_col5"
         style="@style/grid_table_cell"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+<!--    <com.google.android.material.button.MaterialButton-->
+<!--        android:id="@+id/fragment_list_del_btn"-->
+<!--        style="@style/cancel_button"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:text="Xóa"-->
+<!--        app:cornerRadius="5dp" />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

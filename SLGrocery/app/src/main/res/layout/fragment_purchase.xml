@@ -8,64 +8,72 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".Fragments.PurchaseFragment">
-
-    <TextView
-        style="@style/title_text"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_controller_vertical_margin"
-        android:text="Purchase Item" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_controller_vertical_margin">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragment_purchase_item_code"
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/fragment_purchase_item_code" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_controller_vertical_margin">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragment_purchase_quantity"
+            android:orientation="vertical">
+        <TextView
+            style="@style/title_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/fragment_purchase_quantity" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="@dimen/input_controller_vertical_margin"
+            android:text="Purchase Item" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_controller_vertical_margin">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/fragment_purchase_date"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/fragment_purchase_date" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_marginBottom="@dimen/input_controller_vertical_margin">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fragment_purchase_submit_btn"
-        style="@style/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_controller_vertical_margin"
-        android:text="@string/fragment_purchase_submit_btn"
-        app:cornerRadius="5dp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragment_purchase_item_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_purchase_item_code" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/fragment_purchase_cancel_btn"
-        style="@style/cancel_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/fragment_list_back_btn"
-        app:cornerRadius="5dp" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_controller_vertical_margin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragment_purchase_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_purchase_quantity" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_controller_vertical_margin">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fragment_purchase_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/fragment_purchase_date" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_purchase_submit_btn"
+            style="@style/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_controller_vertical_margin"
+            android:text="@string/fragment_purchase_submit_btn"
+            app:cornerRadius="5dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fragment_purchase_cancel_btn"
+            style="@style/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_list_back_btn"
+            app:cornerRadius="5dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

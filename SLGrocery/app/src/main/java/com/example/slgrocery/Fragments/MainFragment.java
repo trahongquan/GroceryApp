@@ -16,25 +16,13 @@ import com.example.slgrocery.R;
 import com.example.slgrocery.databinding.ActivityHomeBinding;
 import com.example.slgrocery.databinding.FragmentMainBinding;
 
-public class MainFragment extends Fragment implements View.OnClickListener {
+public class MainFragment extends Fragment {
 
     FragmentMainBinding fragmentMainBinding;
-    ActivityHomeBinding activityHomeBinding;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentMainBinding = FragmentMainBinding.inflate(inflater, container, false);
-        fragmentMainBinding.imgAddStock.setOnClickListener(this);
         return fragmentMainBinding.getRoot();
-    }
-    @Override
-    public void onClick(View v) {
-        if(v.getId() == fragmentMainBinding.imgAddStock.getId()){
-            AddStockFragment addStockFragment = new AddStockFragment(); // Create new instance
-            FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-            fragmentTransaction.replace(activityHomeBinding.homeFrameLayout.getId(), new AddStockFragment()); // Replace current fragment
-            fragmentTransaction.commit(); // Execute transaction
-        }
     }
 }

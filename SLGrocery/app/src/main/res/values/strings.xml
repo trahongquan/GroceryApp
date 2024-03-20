@@ -71,5 +71,6 @@
     <string name="fragment_list_cancel_btn">CANCEL</string>
 
     <string name="fragment_list_back_btn" translatable="false">BACK</string>
+    <string name="fragment_list_del_btn" translatable="false">DELETE</string>
 
 </resources>

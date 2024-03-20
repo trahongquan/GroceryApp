@@ -180,6 +180,17 @@ public class DbHelper extends SQLiteOpenHelper {
         return db.insert(stockTableName, null, cv) != -1;
     }
 
+    public boolean deleteStockItem(int stockId) {
+        SQLiteDatabase db = getWritableDatabase();
+        // Define the selection clause and arguments for the DELETE statement
+        String selection = stockCol1 + " = ?";
+        String[] selectionArgs = { String.valueOf(stockId) };
+        // Execute the DELETE statement and return true if successful (i.e., rows affected > 0)
+        int deletedRows = db.delete(stockTableName, selection, selectionArgs);
+        return deletedRows > 0;
+    }
+
+
     public String createSale(Sale sale) {
 
         SQLiteDatabase db = getWritableDatabase();

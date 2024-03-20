@@ -8,6 +8,7 @@ import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -32,11 +33,29 @@ import java.util.Calendar;
 
 public class PurchaseFragment extends Fragment implements View.OnClickListener {
     FragmentPurchaseBinding fragmentPurchaseBinding;
-    HomeActivity homeActivity;
     DbHelper dbHelper;
-    private BroadcastReceiver purchaseResultReceiver;
+    HomeActivity homeActivity;
     public String result ="";
+    /** Sử dụng BroadcastReceiver để thống báo service DB được hoàn thiện */
+    private BroadcastReceiver purchaseResultReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            result = intent.getStringExtra("purchase_result");
+            // Xử lý kết quả mua hàng nhận được (ví dụ: cập nhật giao diện, hiển thị thông báo)
+            Toast.makeText(homeActivity.getAppContext(), result, Toast.LENGTH_SHORT).show();
+            Log.i("purchaseResultReceiver", result);
 
+            if (result.equals("Invalid Item Code") || result.equals("Save Purchase Failed")) {
+                new Dialog("Purchase Failed", result).show(
+                        requireActivity().getSupportFragmentManager(), "PurchaseFailed"
+                );
+            } else {
+                new Dialog("Purchase Successfully", "New purchase item has been added into database").show(
+                        requireActivity().getSupportFragmentManager(), "PurchaseSuccessfully"
+                );
+            }
+        }
+    };
 
     @Override /** Lấy context từ Activity chứa fragmentPurchaseBinding */
     public void onAttach(Context context) {
@@ -51,13 +70,10 @@ public class PurchaseFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         fragmentPurchaseBinding = FragmentPurchaseBinding.inflate(inflater, container, false);
         init();
+        IntentFilter filter = new IntentFilter("com.example.purchase_result");
+        requireActivity().registerReceiver(purchaseResultReceiver, filter);
         return fragmentPurchaseBinding.getRoot();
     }
-
-    public void setPurchaseResultReceiver(BroadcastReceiver receiver) {
-        purchaseResultReceiver = receiver; // Gán receiver được truyền
-    }
-
 
     private void init() {
         dbHelper = new DbHelper(getContext());
@@ -111,11 +127,6 @@ public class PurchaseFragment extends Fragment implements View.OnClickListener {
             }
             if (isItemCodeValid && isPurchaseQuantityValid) {
                 if (isPurchaseDateValid) {
-//                    Purchase purchase = new Purchase();
-//                    purchase.itemCode = itemCode;
-//                    purchase.purchaseQuantity = purchaseQuantity;
-//                    purchase.purchaseDate = purchaseDate;
-//                    String result = dbHelper.createPurchase(purchase);
                     /** Xử lý DB ở service */
                     Intent intent = new Intent(homeActivity.getAppContext(), MyDatabaseService.class); // Thay thế "com.example.purchase_action" bằng action của Service
                     intent.putExtra("operation", "create_purchase");
@@ -124,19 +135,8 @@ public class PurchaseFragment extends Fragment implements View.OnClickListener {
                     intent.putExtra("purchaseDate", purchaseDate);
                     // Sử dụng ngữ cảnh của Activity để khởi động Service
                     homeActivity.getAppContext().startService(intent);
+                        Log.i("purchaseResultReceiverResult", result);
 
-
-                    Log.i("purchaseResultReceiver", result);
-
-                    if (result.equals("Invalid Item Code") || result.equals("Save Purchase Failed")) {
-                        new Dialog("Purchase Failed", result).show(
-                                requireActivity().getSupportFragmentManager(), "PurchaseFailed"
-                        );
-                    } else {
-                        new Dialog("Purchase Successfully", "New purchase item has been added into database").show(
-                                requireActivity().getSupportFragmentManager(), "PurchaseSuccessfully"
-                        );
-                    }
                 } else {
                     new Dialog("Validate Failed", purchaseValidation.errorMessage).show(
                             requireActivity().getSupportFragmentManager(), "PurchaseFailed"
@@ -147,6 +147,7 @@ public class PurchaseFragment extends Fragment implements View.OnClickListener {
                         requireActivity().getSupportFragmentManager(), "PurchaseFailed"
                 );
             }
+            result = "";
         }
         // Cancel Button Click Event
         else if (v.getId() == fragmentPurchaseBinding.fragmentPurchaseCancelBtn.getId()) {
@@ -154,5 +155,10 @@ public class PurchaseFragment extends Fragment implements View.OnClickListener {
             fragmentTransaction.replace(R.id.home_frame_layout, new MainFragment());
             fragmentTransaction.commit();
         }
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        requireActivity().unregisterReceiver(purchaseResultReceiver); // Hủy đăng ký để tránh rò rỉ bộ nhớ
     }
 }

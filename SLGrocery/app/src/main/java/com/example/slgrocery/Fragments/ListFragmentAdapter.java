@@ -22,6 +22,9 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        /** Tạo các ViewHolder: Phương thức onCreateViewHolder được gọi khi cần tạo một ViewHolder mới để hiển thị dữ liệu
+         * cho mục hàng trong danh sách. Nó sử dụng LayoutInflater để tạo ra một View từ layout đã được định nghĩa
+         * trong file StockListItemBinding và trả về một ViewHolder mới chứa View này.*/
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         StockListItemBinding stockListItemBinding = StockListItemBinding.inflate(layoutInflater, parent, false);
         return new ViewHolder(stockListItemBinding);
@@ -29,6 +32,9 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        /** Gắn dữ liệu vào ViewHolder: Phương thức onBindViewHolder được gọi để gắn dữ liệu từ mục hàng tương ứng
+         * trong danh sách vào ViewHolder. Nó gọi phương thức bindView của ViewHolder và
+         * truyền dữ liệu từ StockItem vào các trường dữ liệu của ViewHolder. */
         ((ViewHolder) holder).bindView(stockItemList.get(position));
     }
 
@@ -39,7 +45,9 @@ public class ListFragmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
+        /**  sử dụng một lớp con ViewHolder được định nghĩa bên trong nó để giữ các tham chiếu
+         * đến các thành phần giao diện của mỗi mục hàng trong danh sách. Phương thức bindView của ViewHolder
+         * được sử dụng để gắn dữ liệu từ StockItem vào các thành phần giao diện tương ứng. */
         StockListItemBinding stockListItemBinding;
 
         public ViewHolder(@NonNull StockListItemBinding stockListItemBinding) {
